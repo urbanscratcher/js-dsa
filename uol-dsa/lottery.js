@@ -30,31 +30,26 @@ function genBirthdays(n) {
 // search for unique birthdays in the array
 function find(birthdays) {
   let n = birthdays.length;
-  let array = [];
-  let i = 1;
+  let count = 0;
+  let players = [];
 
-  while (i < n) {
-    let count = 0;
-    let j = 1;
-
-    while (j < n) {
-      if (
-        birthdays[i][0] === birthdays[j][0] &&
-        birthdays[i][1] === birthdays[j][1]
-      ) {
-        count++;
+  for (let i = 1; i < n; i = i + 2) {
+    count = 0;
+    for (let j = 1; j < n; j = j + 2) {
+      if (i != j) {
+        if (
+          birthdays[i][0] === birthdays[j][0] &&
+          birthdays[i][1] === birthdays[j][1]
+        ) {
+          count++;
+        }
       }
-      j = j + 2;
     }
-
-    if (count === 1) {
-      let m = array.length;
-      array[m] = birthdays[i - 1];
+    if (count === 0) {
+      players.push(birthdays[i - 1]);
     }
-    i = i + 2;
   }
-
-  return array;
+  return players;
 }
 
 ///////////////////////////////////////////
@@ -106,50 +101,47 @@ function bubbleSortDays(array) {
 
 // sort then search for unique birthdays
 function findSorted(birthdays) {
-  let n = birthdays.length;
   bubbleSortDays(bubbleSort(birthdays));
-  let array = [];
-  let i = 1;
 
-  while (i < n) {
-    let count = 0;
-    let j = 1;
+  let n = birthdays.length;
+  let players = [];
 
-    while (j < n) {
-      if (
-        birthdays[i][0] === birthdays[j][0] &&
-        birthdays[i][1] === birthdays[j][1]
-      ) {
-        count++;
-      }
-      j = j + 2;
-    }
+  let check1 =
+    birthdays[1][0] === birthdays[3][0] && birthdays[1][1] === birthdays[3][1];
 
-    if (count === 1) {
-      let m = array.length;
-      array[m] = birthdays[i - 1];
-    }
-    i = i + 2;
+  if (check1 === false) {
+    players.push(birthdays[0]);
   }
 
-  return array;
+  let check2 =
+    birthdays[n - 1][0] === birthdays[n - 3][0] &&
+    birthdays[n - 1][1] === birthdays[n - 3][1];
+
+  if (check2 === false) {
+    players.push(birthdays[n - 2]);
+  }
+
+  for (let i = 3; i < n - 1; i = i + 2) {
+    let check1 =
+      birthdays[i][0] === birthdays[i + 2][0] &&
+      birthdays[i][1] === birthdays[i + 2][1];
+
+    let check2 =
+      birthdays[i][0] === birthdays[i - 2][0] &&
+      birthdays[i][1] === birthdays[i - 2][1];
+
+    if (!check1 && !check2) {
+      players.push(birthdays[i - 1]);
+    }
+  }
+
+  return players;
 }
 
 ///////////////////////////////////////////
 //this creates an array for testing
 //in this array the only unique birthday is held by member "1"
-var birthdays = [
-  "0",
-  [22, 8],
-  "1",
-  [11, 4],
-  "2",
-  [16, 10],
-  "3",
-  [22, 8],
-  "4",
-  [16, 10],
-];
+var birthdays = genBirthdays(100);
 console.log(find(birthdays));
 console.log(findSorted(birthdays));
 //in both cases the array printed to the console should be ["1"]
