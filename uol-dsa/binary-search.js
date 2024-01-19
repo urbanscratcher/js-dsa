@@ -29,20 +29,23 @@ function bubbleSort(array) {
   }
   return array;
 }
+
 function binarySearch(array, x) {
-  const n = arr.length;
-  let left = 0;
+  const n = array.length;
+  let left = 1;
   let right = n;
+
   while (left <= right) {
-    let mid = Math.ceil((left + right) / 2);
-    if (arr[mid] === x) {
+    let midIdx = Math.floor((left + right) / 2);
+    if (array[midIdx] === x) {
       return true;
-    } else if (arr[mid] > x) {
-      right = mid - 1;
+    } else if (array[midIdx] > x) {
+      right = midIdx - 1;
     } else {
-      left = mid + 1;
+      left = midIdx + 1;
     }
   }
+
   return false;
 }
 
