@@ -32,10 +32,29 @@ function bubbleSort(array) {
 
 function search(array, x, left, right) {
   // return a Boolean: true if x is in array between left and right, and false otherwise
+  let l = left;
+  let r = right;
+
+  if (l > r) {
+    return false;
+  }
+  const m = Math.floor((l + r) / 2);
+  if (array[m] === x) {
+    return true;
+  } else if (array[m] > x) {
+    r = m - 1;
+  } else {
+    l = m + 1;
+  }
+  return search(array, x, l, r);
 }
 
 function binarySearch(array, x) {
   // return a Boolean: true if x is in array, and false otherwise
+  const n = array.length;
+  const right = n;
+  const left = 1;
+  return search(array, x, left, right);
 }
 
 // Do not modify the code below this point--------------------------------
